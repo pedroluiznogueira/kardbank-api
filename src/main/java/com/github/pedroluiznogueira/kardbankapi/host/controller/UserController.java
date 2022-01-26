@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin("*")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -43,12 +44,12 @@ public class UserController {
     }
 
     @PutMapping("/update/{userId}")
-    public ResponseEntity<String> update(
+    public ResponseEntity<User> update(
             @PathVariable ("userId") Long userId,
             @RequestBody UserDto userDto
     ) {
-        Optional<String> response = userService.update(userId, userDto);
-        if (response.get().equals("user not found")) return new ResponseEntity("user to be updated not found", HttpStatus.NOT_FOUND);
+        Optional<User> response = userService.update(userId, userDto);
+        if (!response.isPresent()) return new ResponseEntity("user to be updated not found", HttpStatus.NOT_FOUND);
 
         return new ResponseEntity(response.get(), HttpStatus.OK);
     }

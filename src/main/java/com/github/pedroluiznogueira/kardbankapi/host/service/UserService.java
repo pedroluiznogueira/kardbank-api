@@ -29,15 +29,12 @@ public class UserService {
         return Optional.of(userRepository.save(user));
     }
 
-    public Optional<String> update(Long userId, UserDto userDto) {
+    public Optional<User> update(Long userId, UserDto userDto) {
         Optional<User> user = userRepository.findById(userId);
-        if (!user.isPresent()) return Optional.of("user not found");
         user.get().setName(userDto.getName());
         user.get().setEmail(userDto.getEmail());
         user.get().setCpf(userDto.getCpf());
-        userRepository.save(user.get());
-
-        return Optional.of("user updated");
+        return Optional.of(userRepository.save(user.get()));
     }
 
     public Optional<String> delete(Long userId) {
