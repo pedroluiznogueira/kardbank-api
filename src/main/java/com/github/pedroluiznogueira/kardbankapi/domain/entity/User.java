@@ -17,10 +17,12 @@ public class User {
     private String name;
     private String email;
     private String cpf;
+    private String imagePath;
 
-    public User(String name, String email, String cpf) {
+    public User(String name, String email, String cpf, String imagePath) {
         this.name = name;
         this.email = email;
         this.cpf = cpf;
+        this.imagePath = imagePath;
     }
 }
