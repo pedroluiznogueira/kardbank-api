@@ -1,0 +1,16 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - mvn clean package -DskipTests
+  - docker build -t pedroluiznogueira/kardbank-api:"$VERSION" -f Dockerfile .
+
+script:
+  - docker images
+
+after_success:
+  - docker build -t pedroluiznogueira/kardbank-api:"$VERSION" .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push pedroluiznogueira/kardbank-api:"$VERSION"
