@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public Optional<User> save(UserDto userDto) {
-        User user = new User(userDto.getName(), userDto.getEmail(), userDto.getCpf());
+        User user = new User(userDto.getName(), userDto.getEmail(), userDto.getCpf(), userDto.getImagePath());
 
         return Optional.of(userRepository.save(user));
     }

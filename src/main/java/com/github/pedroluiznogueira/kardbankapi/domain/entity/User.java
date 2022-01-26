@@ -3,14 +3,12 @@ package com.github.pedroluiznogueira.kardbankapi.domain.entity;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
 @RequiredArgsConstructor
+@Table(name = "user_table")
 public class User {
 
     @Id
@@ -19,10 +17,12 @@ public class User {
     private String name;
     private String email;
     private String cpf;
+    private String imagePath;
 
-    public User(String name, String email, String cpf) {
+    public User(String name, String email, String cpf, String imagePath) {
         this.name = name;
         this.email = email;
         this.cpf = cpf;
+        this.imagePath = imagePath;
     }
 }

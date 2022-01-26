@@ -10,4 +10,5 @@ public class UserDto {
     private String cpf;
     private String name;
     private String email;
+    private String imagePath;
 }
