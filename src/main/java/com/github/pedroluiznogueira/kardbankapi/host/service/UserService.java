@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,31 +15,36 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User findById(Long userId) {
-        return userRepository.findById(userId).get();
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public Optional<List<User>> findAll() {
+        return Optional.of(userRepository.findAll());
     }
 
-    public User save(UserDto userDto) {
+    public Optional<User> save(UserDto userDto) {
         User user = new User(userDto.getName(), userDto.getEmail(), userDto.getCpf());
-        
-        return userRepository.save(user);
+
+        return Optional.of(userRepository.save(user));
     }
 
-    public User update(Long userId, UserDto userDto) {
-        User user = userRepository.findById(userId).get();
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-        user.setCpf(userDto.getCpf());
-        
-        return userRepository.save(user);
+    public Optional<String> update(Long userId, UserDto userDto) {
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()) return Optional.of("user not found");
+        user.get().setName(userDto.getName());
+        user.get().setEmail(userDto.getEmail());
+        user.get().setCpf(userDto.getCpf());
+        userRepository.save(user.get());
+
+        return Optional.of("user updated");
     }
 
-    public void delete(Long userId) {
-        User user = userRepository.findById(userId).get();
-        userRepository.delete(user);
+    public Optional<String> delete(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()) return Optional.of("user not found");
+        userRepository.delete(user.get());
+
+        return Optional.of("user deleted");
     }
 }
